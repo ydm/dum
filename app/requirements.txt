@@ -1,0 +1,4 @@
+django
+odfpy
+openpyxl
+pandas

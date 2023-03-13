@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Проверка{% endblock title %}
+
+{% block body %}
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <p class="mt-2">
+        Този уебсайт <b>не съхранява</b> проверяваните файлове.
+
+        Проектът е
+        <a class="link-info" href="https://www.gnu.org/philosophy/free-sw.bg.html">свободен</a>,
+        кодът е поместен <a class="link-info" href="https://github.com/ydm/dum">тук</a>.
+      </p>
+    </div> <!-- .col -->
+  </div> <!-- .row -->
+
+  {% if form.is_valid %}
+    <div class="row">
+      <div class="col">
+        <p>
+          Файлът <code>{{ form.cleaned_data.table.name }}</code> бе качен и проверен.
+        </p>
+
+        {% if checks %}
+          {% for check in checks %}
+            <div class="alert alert-warning" role="alert">
+              {{ check|capfirst }}
+            </div>
+          {% endfor checks %}
+        {% else %}
+          <div class="alert alert-success" role="alert">Не са открити грешки!</div>
+        {% endif %}
+      </div> <!-- .col -->
+    </div> <!-- .row -->
+  {% else %}
+    <p>
+      Качете таблица (UTF-8 кодиран CSV, ODF или XLSX) с попълнени
+      референдумни данни:
+    </p>
+  {% endif %}
+
+  {% if checks %}
+    <div class="row">
+      <div class="col">
+        {% for check in checks %}
+          
+        {% endfor %}
+      </div> <!-- .col -->
+    </div> <!-- .row -->
+  {% endif %}
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="row align-items-center">
+      <div class="col-auto">
+        {{ form.as_div }}
+      </div> <!-- .col-auto -->
+      <div class="col-auto">
+        <button class="btn btn-info" type="submit">Прикачи</button>
+      </div> <!-- .col-auto -->
+    </div> <!-- .row -->
+  </form>
+
+</div> <!-- .container -->
+
+{% endblock body %}
